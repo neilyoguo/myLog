@@ -1,5 +1,5 @@
-#pragma once
 
+#pragma once
 #include <stdarg.h>
 #include <thread>
 #include <mutex>
@@ -41,10 +41,6 @@ enum LOG_LEVEL
 	DEBUG,
 	ERROR
 };
-static inline std::string enum_str(enum LOG_LEVEL c) {
-
-}
-
 
 
 class Logger
@@ -58,31 +54,42 @@ public:
 
 private:
 	Logger();
+
+	//单例锁
 	static std::mutex m_mutex;
 	static Logger* logger;
 
 private:
+	//写日志线程锁
 	std::mutex t_mutex;
 	std::condition_variable m_cond;
+	//日志消息队列
 	std::queue<std::string> m_queue;
+	//日志文件队列 
 	std::queue<std::string> file_queue;
 	std::thread m_thread;
 	bool m_running;	
 	std::ofstream m_file;
+	//日志文件名
 	std::string base_file;
 	std::string file_name;
 
 private:
 	std::string enum_str(enum LOG_LEVEL i);
+	//写日志文件
 	void wirte();
+	//获取时间
 	void getTime(struct TimeFormat&);
-
+	//创建日志目录
 	void CreatDir();
+	//获取日志目录下已有的日志文件
 	void GetDirFiles();
+	//向日志文件队列中插入新的日志文件
 	void InsertFile(const char * path);
+	//是否需要创建新的日志文件 
 	bool isCreatFile();
+	//删除旧的日志文件
 	void removeFile(const char * path);
-
 
 };
 
