@@ -74,6 +74,8 @@ private:
 	std::string base_file;
 	std::string file_name;
 
+	int front_date;
+
 private:
 	std::string enum_str(enum LOG_LEVEL i);
 	//写日志文件

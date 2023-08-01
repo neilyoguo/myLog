@@ -19,6 +19,11 @@ Logger::Logger():base_file("logs/log_"),m_running(true)
 {
 	CreatDir();
 	GetDirFiles();
+
+	time_t now = time(0);
+	struct tm *stm = localtime(&now);
+	front_date = stm->tm_mday;
+
 	TimeFormat t_fmt;
 	getTime(t_fmt);
 	file_name = base_file + t_fmt.date;
@@ -175,7 +180,7 @@ void Logger::removeFile(const char * path)
 }
 bool Logger::isCreatFile()
 {
-	static int front_date = 0;
+
 	int current_date = 0;
 	time_t now = time(0);
 	struct tm *stm = localtime(&now);
